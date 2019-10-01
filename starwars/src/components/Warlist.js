@@ -1,49 +1,45 @@
+//parent file
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Cards from '../Cards';
-import { Container, Row } from "reactstrap";
+import Title from "./Title"; //pulling from child to get the formatting 
+// import { Container } from './Styles';
 
 
 
+const WarList = () => {
+  const [warData, setwarData] = useState([]);
 
-
-    const Warlist = (props) => {
-      const [warData, setWarData] = useState({})
-
-useEffect(() => {
-  axios.get(
-    `https://swapi.co/api/species`
-  )
-  .then(res => {
-    console.log(res.data);
-    setWarData(res.data);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-}, []);
-      
-      
-       
-        return (
-          <Container>
-            <Row>
-              
-                return (
-                  <Cards
-                    // title={data.title}
-                    // description={data.description}
-                    CardTitle={warData.name}
-                    CardImage={warData.image}
-                    // class={data.classification}
-                    // key={data.id}
-                  />
-                );
-            
-            </Row>
-          </Container>
-        );
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get("https://swapi.co/api/people");
+        console.log(response);
+        setwarData(response.data.results);
+      } catch (err) {
+        console.log(err);
       }
+    }
+    getData();
+  }, []);
 
-      export default Warlist;
+//   useEffect(() => {
+//     axios.get('https://swapi.co/api/people/')
+//         .then((res) => {
+//             const response = res.data.results;
+//             setwarData(response);
+//         })
+// }, [])
+
+
+if(warData.length === 0) {return <h2>loading....</h2>}
+
+  return (
+    <div>
+    {warData.map((character, i) => {
+      return <Title data={character} key={i}  />;
+    })}
+  </div>
+  );
+};
+
+export default WarList;

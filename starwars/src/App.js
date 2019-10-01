@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
-import Axios from "axios";
-import Title from './components/Title';
-import Images from "./components/Images";
-import Classification from './components/Classification';
+import WarList from './components/Warlist';
 
 function App() {
   // Try to think through what state you'll need for this app before starting. Then build out
@@ -30,26 +27,13 @@ function App() {
 // You sync effects through the React DOM by importing it. Effects are nonfunctional function that only runs after the init render is completed. It will also only run if changes are made or certain values have changed. They help unclog an over functional  application.  
 
 
-  const [warData, setWarData] = useState({});
 
-  useEffect(() => {
-    Axios.get(`https://swapi.co/api/species`)
-      .then(res => {
-        console.log(res.data);
-        setWarData(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
 
 
   return (
     <div className="App">
       <h1>React Wars</h1>
-     <Title title={warData.title} />
-      <Images image={warData.url} />
-      <Classification classification={warData.classification} />
+     <WarList />
     </div>
   );
 };
